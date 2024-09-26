@@ -1,65 +1,94 @@
 from random import randint
 
-# Funktion för att skapa slump till datorn
-def klunsa():
-    return randint(1,3)
+class TheGame:
 
-# Lista att använda för att skriva ut resultat i text per omgång
-val = ["Sten", "Sax", "Påse"]
+    def __init__(self):
+        self.val = ["Sten", "Sax", "Påse"]
+        self.computer_wins = 0
+        self.user_wins = 0
+        self.rounds = 0
 
-# Initiera antal vinster per user / computer
-computer_wins = 0
-user_wins = 0
+    def klunsa(self):
+        return randint(1,3)
 
-print("Sten, Sax, Påse. Först till 3 vinster!")
+    def play(self, user):
+        computer = self.klunsa()
 
-while True:
+        if user not in range(0,4):
+            print("Ej korrekt val! Försök igen!")
+            return None
 
-    print(f'Ställning användaren: {user_wins}, dator: {computer_wins}')
+        # Avsluta om användaren skriver in 0
+        if user == 0:
+            print("#################################################")
+            print("Användaren avslutade spelet!")
+            return 'exit'
 
-    # Användarens val samt datorns slumpade val
-    user = int(input("Välj 1=Sten, 2=Sax, 3=Påse, 0 för att avsluta: "))
-    computer = klunsa()
+        # Skriva ut omgångens resultat
+        print(f'Resultat användare: {self.val[user-1]}, dator: {self.val[computer-1]}')
 
-    print(f'Resultat användare: {val[user-1]}, dator: {val[computer-1]}')
+        # Kolla vem som vann omgången
+        if user == computer:
+            print("Oavgjort!")
+        elif user == 1 and computer == 2:
+            print("Du vann")
+            self.user_wins += 1
+        elif user == 2 and computer == 3:
+            print("Du vann")
+            self.user_wins += 1
+        elif user == 3 and computer == 1:
+            print("Du vann")
+            self.user_wins += 1
+        elif computer == 1 and user == 2:
+            print("Datorn vann")
+            self.computer_wins += 1
+        elif computer == 2 and user == 3:
+            print("Datorn vann")
+            self.computer_wins += 1
+        elif computer == 3 and user == 1:
+            print("Datorn vann")
+            self.computer_wins += 1
 
-    # Oavgjort
-    if user == computer:
-        print("Oavgjort!")
+        print("#################################################")
+        self.rounds += 1
+        return self.winner_game()
 
-    # Användaren vinner
-    elif user == 1 and computer == 2:
-        print("Du vann")
-        user_wins += 1
-    elif user == 2 and computer == 3:
-        print("Du vann")
-        user_wins += 1
-    elif user == 3 and computer == 1:
-        print("Du vann")
-        user_wins += 1
+    def winner_game(self):
+        # När någon kommer till 3 vinster så avslutas spelet
+        if self.user_wins == 3 or self.computer_wins == 3:
+            if self.user_wins == 3:
+                print(f'Användaren fick 3 vinster först och vann!')
+            elif self.computer_wins == 3:
+                print(f'Datorn fick 3 vinster först och vann!')
+            return 'exit'
 
-    # Datorn vinner
-    elif computer == 1 and user == 2:
-        print("Datorn vann")
-        computer_wins += 1
-    elif computer == 2 and user == 3:
-        print("Datorn vann")
-        computer_wins += 1
-    elif computer == 3 and user == 1:
-        print("Datorn vann")
-        computer_wins += 1
+    def game_score(self):
+        print(f'Ställning användaren: {self.user_wins}, dator: {self.computer_wins}')       
 
+
+def main():
+    
+    game = TheGame()
+
+    print("Sten, Sax, Påse. Först till 3 vinster!")
     print("#################################################")
 
-    # När någon kommer till 3 vinster så avslutas spelet
-    if user_wins == 3 or computer_wins == 3:
-        if user_wins == 3:
-            print(f'Användaren fick 3 vinster först och vann!')
-        elif computer_wins == 3:
-            print(f'Datorn fick 3 vinster först och vann!')
-        break
+    while True:
+
+        if game.rounds > 0:
+            game.game_score()
+        
+        try:
+            user = int(input("Välj 1=Sten, 2=Sax, 3=Påse, 0 för att avsluta: "))
+        except ValueError:
+            print("Ej korrekt val! Försök igen!")
+            continue
+
+        result = game.play(user)
+
+        if result == 'exit':
+            break
+  
     
-    # Avsluta spelet om användaren väljer 0 istället för sten sax påse.
-    if user == 0:
-        print("Användaren avslutade spelet!")
-        break
+if __name__ == "__main__":
+    main()
