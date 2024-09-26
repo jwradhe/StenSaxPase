@@ -13,7 +13,6 @@ user_wins = 0
 
 print("Sten, Sax, Påse. Först till 3 vinster!")
 
-# Loopa tills nån vinner 3 gånger eller väljer att avsluta med 0.
 while True:
 
     print(f'Ställning användaren: {user_wins}, dator: {computer_wins}')
@@ -42,22 +41,22 @@ while True:
     # Datorn vinner
     elif computer == 1 and user == 2:
         print("Datorn vann")
-        user_wins += 1
+        computer_wins += 1
     elif computer == 2 and user == 3:
         print("Datorn vann")
-        user_wins += 1
+        computer_wins += 1
     elif computer == 3 and user == 1:
         print("Datorn vann")
-        user_wins += 1
+        computer_wins += 1
 
     print("#################################################")
 
     # När någon kommer till 3 vinster så avslutas spelet
     if user_wins == 3 or computer_wins == 3:
         if user_wins == 3:
-            print(f'Användaren fick 3 vinster först!')
+            print(f'Användaren fick 3 vinster först och vann!')
         elif computer_wins == 3:
-            print(f'Datorn fick 3 vinster först!')
+            print(f'Datorn fick 3 vinster först och vann!')
         break
     
     # Avsluta spelet om användaren väljer 0 istället för sten sax påse.
